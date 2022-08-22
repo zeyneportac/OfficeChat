@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "134640358929",
+    "firebase_url": "https://office-chat-17a00-default-rtdb.firebaseio.com",
+    "project_id": "office-chat-17a00",
+    "storage_bucket": "office-chat-17a00.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134640358929:android:d27ec9c24060430e8b03b0",
+        "android_client_info": {
+          "package_name": "com.example.office_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134640358929-n1jls4b3uum62i3gea2lc9mvit3fiqkr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBENgVNABjR3IXLEebWdOk2iXaBp732KVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134640358929-n1jls4b3uum62i3gea2lc9mvit3fiqkr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
