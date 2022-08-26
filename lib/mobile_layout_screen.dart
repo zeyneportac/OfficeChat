@@ -26,7 +26,7 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
   @override
   void initState() {
     super.initState();
-    tabBarController = TabController(length: 3, vsync: this);
+    tabBarController = TabController(length: 2, vsync: this);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -54,14 +54,14 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: appBarColor,
           centerTitle: false,
           title: const Text(
-            'WhatsApp',
+            'Office Chat',
             style: TextStyle(
               fontSize: 20,
               color: Colors.grey,
@@ -94,7 +94,7 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
           bottom: TabBar(
             controller: tabBarController,
             indicatorColor: tabColor,
-            indicatorWeight: 4,
+            indicatorWeight: 6,
             labelColor: tabColor,
             unselectedLabelColor: Colors.grey,
             labelStyle: const TextStyle(
@@ -107,9 +107,6 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
               Tab(
                 text: 'STATUS',
               ),
-              Tab(
-                text: 'CALLS',
-              ),
             ],
           ),
         ),
@@ -118,7 +115,6 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
           children: const [
             ContactsList(),
             StatusContactsScreen(),
-            Text('Calls')
           ],
         ),
         floatingActionButton: FloatingActionButton(
