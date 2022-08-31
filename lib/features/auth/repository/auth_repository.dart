@@ -48,8 +48,6 @@ class AuthRepository {
           await auth.signInWithCredential(credential);
         },
         verificationFailed: (e) {
-          // ignore: avoid_print
-          print('selam');
           throw Exception(e.message);
         },
         codeSent: ((String verificationId, int? resendToken) async {

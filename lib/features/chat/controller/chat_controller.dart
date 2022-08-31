@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, dead_code
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,7 +10,6 @@ import 'package:office_chat/features/auth/controller/auth_controller.dart';
 import 'package:office_chat/features/chat/repositories/chat_repository.dart';
 import 'package:office_chat/models/chat_contact.dart';
 import 'package:office_chat/models/message.dart';
-import 'package:office_chat/models/group.dart';
 
 final chatControllerProvider = Provider((ref) {
   final chatRepository = ref.watch(chatRepositoryProvider);
@@ -30,23 +31,14 @@ class ChatController {
     return chatRepository.getChatContacts();
   }
 
-  Stream<List<Group>> chatGroups() {
-    return chatRepository.getChatGroups();
-  }
-
   Stream<List<Message>> chatStream(String recieverUserId) {
     return chatRepository.getChatStream(recieverUserId);
-  }
-
-  Stream<List<Message>> groupChatStream(String groupId) {
-    return chatRepository.getGroupChatStream(groupId);
   }
 
   void sendTextMessage(
     BuildContext context,
     String text,
     String recieverUserId,
-    bool isGroupChat,
   ) {
     final messageReply = ref.read(messageReplyProvider);
     ref.read(userDataAuthProvider).whenData(
@@ -56,7 +48,6 @@ class ChatController {
             recieverUserId: recieverUserId,
             senderUser: value!,
             messageReply: messageReply,
-            isGroupChat: isGroupChat,
           ),
         );
     ref.read(messageReplyProvider.state).update((state) => null);
@@ -67,7 +58,6 @@ class ChatController {
     File file,
     String recieverUserId,
     MessageEnum messageEnum,
-    bool isGroupChat,
   ) {
     final messageReply = ref.read(messageReplyProvider);
     ref.read(userDataAuthProvider).whenData(
@@ -79,7 +69,6 @@ class ChatController {
             messageEnum: messageEnum,
             ref: ref,
             messageReply: messageReply,
-            isGroupChat: isGroupChat,
           ),
         );
     ref.read(messageReplyProvider.state).update((state) => null);
@@ -89,7 +78,6 @@ class ChatController {
     BuildContext context,
     String gifUrl,
     String recieverUserId,
-    bool isGroupChat,
   ) {
     final messageReply = ref.read(messageReplyProvider);
     int gifUrlPartIndex = gifUrl.lastIndexOf('-') + 1;
@@ -103,7 +91,6 @@ class ChatController {
             recieverUserId: recieverUserId,
             senderUser: value!,
             messageReply: messageReply,
-            isGroupChat: isGroupChat,
           ),
         );
     ref.read(messageReplyProvider.state).update((state) => null);

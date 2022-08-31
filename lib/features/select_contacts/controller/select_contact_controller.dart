@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, dead_code
+
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

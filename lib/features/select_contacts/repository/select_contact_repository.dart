@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +22,7 @@ class SelectContactRepository {
   });
 
   Future<List<Contact>> getContacts() async {
+    print('getcontacts');
     List<Contact> contacts = [];
     try {
       if (await FlutterContacts.requestPermission()) {
@@ -52,6 +53,7 @@ class SelectContactRepository {
             arguments: {
               'name': userData.name,
               'uid': userData.uid,
+              'profilePic': userData.profilePic,
             },
           );
         }

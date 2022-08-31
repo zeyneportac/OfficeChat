@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:office_chat/common/utils/colors.dart';
 import 'package:office_chat/common/enums/message_enum.dart';
 
 class MyMessageCard extends StatelessWidget {
@@ -25,7 +24,6 @@ class MyMessageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     throw UnimplementedError();
   }
 }
