@@ -84,77 +84,96 @@ class ChatRepository {
     DateTime timeSent,
     String recieverUserId,
   ) async {
-    var recieverChatContact = ChatContact(
-      name: senderUserData.name,
-      profilePic: senderUserData.profilePic,
-      contactId: senderUserData.uid,
-      timeSent: timeSent,
-      lastMessage: text,
-    );
-    await firestore
-        .collection('users')
-        .doc(recieverUserId)
-        .collection('chats')
-        .doc(auth.currentUser!.uid)
-        .set(
-          recieverChatContact.toMap(),
-        );
-    // users -> current user id  => chats -> reciever user id -> set data
-    var senderChatContact = ChatContact(
-      name: recieverUserData!.name,
-      profilePic: recieverUserData.profilePic,
-      contactId: recieverUserData.uid,
-      timeSent: timeSent,
-      lastMessage: text,
-    );
-    await firestore
-        .collection('users')
-        .doc(auth.currentUser!.uid)
-        .collection('chats')
-        .doc(recieverUserId)
-        .set(
-          senderChatContact.toMap(),
-        );
+    {
+// users -> reciever user id => chats -> current user id -> set data
+      var recieverChatContact = ChatContact(
+        name: senderUserData.name,
+        profilePic: senderUserData.profilePic,
+        contactId: senderUserData.uid,
+        timeSent: timeSent,
+        lastMessage: text,
+      );
+      await firestore
+          .collection('users')
+          .doc(recieverUserId)
+          .collection('chats')
+          .doc(auth.currentUser!.uid)
+          .set(
+            recieverChatContact.toMap(),
+          );
+      // users -> current user id  => chats -> reciever user id -> set data
+      var senderChatContact = ChatContact(
+        name: recieverUserData!.name,
+        profilePic: recieverUserData.profilePic,
+        contactId: recieverUserData.uid,
+        timeSent: timeSent,
+        lastMessage: text,
+      );
+      await firestore
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .collection('chats')
+          .doc(recieverUserId)
+          .set(
+            senderChatContact.toMap(),
+          );
+    }
   }
 
-  sendTextMessage(
-      {required BuildContext context,
-      required String text,
-      required String recieverUserId,
-      required UserModel senderUser,
-      MessageReply? messageReply}) {}
+  void _saveMessageToMessageSubcollection({
+    required String recieverUserId,
+    required String text,
+    required DateTime timeSent,
+    required String messageId,
+    required String username,
+    required MessageEnum messageType,
+    required MessageReply? messageReply,
+    required String senderUsername,
+    required String? recieverUserName,
+  }) async {
+    final message = Message(
+      senderId: auth.currentUser!.uid,
+      recieverid: recieverUserId,
+      text: text,
+      type: messageType,
+      timeSent: timeSent,
+      messageId: messageId,
+      isSeen: false,
+      repliedMessage: messageReply == null ? '' : messageReply.message,
+      repliedTo: messageReply == null
+          ? ''
+          : messageReply.isMe
+              ? senderUsername
+              : recieverUserName ?? '',
+      repliedMessageType:
+          messageReply == null ? MessageEnum.text : messageReply.messageEnum,
+    );
+    {
+      // users -> sender id -> reciever id -> messages -> message id -> store message
+      await firestore
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .collection('chats')
+          .doc(recieverUserId)
+          .collection('messages')
+          .doc(messageId)
+          .set(
+            message.toMap(),
+          );
+      // users -> reciever id  -> sender id -> messages -> message id -> store message
+      await firestore
+          .collection('users')
+          .doc(recieverUserId)
+          .collection('chats')
+          .doc(auth.currentUser!.uid)
+          .collection('messages')
+          .doc(messageId)
+          .set(
+            message.toMap(),
+          );
+    }
+  }
 
-  sendFileMessage(
-      {required BuildContext context,
-      required File file,
-      required String recieverUserId,
-      required UserModel senderUserData,
-      required MessageEnum messageEnum,
-      required ProviderRef ref,
-      MessageReply? messageReply}) {}
-
-  sendGIFMessage(
-      {required BuildContext context,
-      required String gifUrl,
-      required String recieverUserId,
-      required UserModel senderUser,
-      MessageReply? messageReply}) {}
-
-  void setChatMessageSeen(
-      BuildContext context, String recieverUserId, String messageId) {}
-}
-
-void _saveMessageToMessageSubcollection({
-  required String recieverUserId,
-  required String text,
-  required DateTime timeSent,
-  required String messageId,
-  required String username,
-  required MessageEnum messageType,
-  required MessageReply? messageReply,
-  required String senderUsername,
-  required String? recieverUserName,
-}) async {
   void sendTextMessage({
     required BuildContext context,
     required String text,
@@ -167,6 +186,14 @@ void _saveMessageToMessageSubcollection({
       UserModel? recieverUserData;
 
       var messageId = const Uuid().v1();
+
+      _saveDataToContactsSubcollection(
+        senderUser,
+        recieverUserData,
+        text,
+        timeSent,
+        recieverUserId,
+      );
 
       _saveMessageToMessageSubcollection(
         recieverUserId: recieverUserId,
@@ -206,17 +233,32 @@ void _saveMessageToMessageSubcollection({
 
       UserModel? recieverUserData;
 
+      String contactMsg;
+
       switch (messageEnum) {
         case MessageEnum.image:
+          contactMsg = '📷 Photo';
           break;
         case MessageEnum.video:
+          contactMsg = '📸 Video';
           break;
         case MessageEnum.audio:
+          contactMsg = '🎵 Audio';
           break;
         case MessageEnum.gif:
+          contactMsg = 'GIF';
           break;
         default:
+          contactMsg = 'GIF';
       }
+      _saveDataToContactsSubcollection(
+        senderUserData,
+        recieverUserData,
+        contactMsg,
+        timeSent,
+        recieverUserId,
+      );
+
       _saveMessageToMessageSubcollection(
         recieverUserId: recieverUserId,
         text: imageUrl,
@@ -246,6 +288,14 @@ void _saveMessageToMessageSubcollection({
 
       var messageId = const Uuid().v1();
 
+      _saveDataToContactsSubcollection(
+        senderUser,
+        recieverUserData,
+        'GIF',
+        timeSent,
+        recieverUserId,
+      );
+
       _saveMessageToMessageSubcollection(
         recieverUserId: recieverUserId,
         text: gifUrl,
@@ -268,8 +318,6 @@ void _saveMessageToMessageSubcollection({
     String messageId,
   ) async {
     try {
-      var firestore;
-      var auth;
       await firestore
           .collection('users')
           .doc(auth.currentUser!.uid)
