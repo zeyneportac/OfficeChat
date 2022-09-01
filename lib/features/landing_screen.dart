@@ -21,7 +21,7 @@ class LandingScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 50),
             const Text(
-              'Welcome to WhatsApp',
+              'Welcome to Office Chat',
               style: TextStyle(
                 fontSize: 33,
                 fontWeight: FontWeight.w600,
@@ -31,7 +31,7 @@ class LandingScreen extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.all(15.0),
               child: Text(
-                'Read our Privacy Policy. Tap "Agree and continue" to accept the Terms of Service.',
+                'This app is developed with Flutter. Firebase is used as database.',
                 style: TextStyle(color: greyColor),
                 textAlign: TextAlign.center,
               ),
@@ -40,7 +40,7 @@ class LandingScreen extends StatelessWidget {
             SizedBox(
               width: size.width * 0.75,
               child: CustomButton(
-                text: 'AGREE AND CONTINUE',
+                text: 'CONTINUE',
                 onPressed: () => navigateToLoginScreen(context),
               ),
             ),

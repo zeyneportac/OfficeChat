@@ -50,8 +50,8 @@ class MyMessageCard extends StatelessWidget {
                 Padding(
                   padding: type == MessageEnum.text
                       ? const EdgeInsets.only(
-                          left: 10,
-                          right: 30,
+                          left: 15,
+                          right: 60,
                           top: 5,
                           bottom: 20,
                         )
@@ -96,8 +96,8 @@ class MyMessageCard extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  bottom: 4,
-                  right: 10,
+                  bottom: 3,
+                  right: 5,
                   child: Row(
                     children: [
                       Text(

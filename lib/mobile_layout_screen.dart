@@ -63,7 +63,7 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
             'Office Chat',
             style: TextStyle(
               fontSize: 20,
-              color: Colors.grey,
+              color: Color.fromRGBO(254, 92, 0, 1),
               fontWeight: FontWeight.bold,
             ),
           ),

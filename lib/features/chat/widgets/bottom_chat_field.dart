@@ -128,7 +128,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                   filled: true,
                   fillColor: mobileChatBoxColor,
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: SizedBox(
                       width: 100,
                       child: Row(
@@ -192,7 +192,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                 left: 2,
               ),
               child: CircleAvatar(
-                backgroundColor: const Color(0xFF128C7E),
+                backgroundColor: const Color.fromRGBO(254, 92, 0, 1),
                 radius: 25,
                 child: GestureDetector(
                   child: const Icon(
